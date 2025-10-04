@@ -70,10 +70,10 @@ public class ArmS extends SubsystemBase {
       // Feedback Constants (PID Constants)
       .withClosedLoopController(2, 0, 0.2, DegreesPerSecond.of(458), DegreesPerSecondPerSecond.of(688))
 
-      .withSimClosedLoopController(0.8, 0, 0, DegreesPerSecond.of(200), DegreesPerSecondPerSecond.of(200))
+      .withSimClosedLoopController(20, 0, 0, DegreesPerSecond.of(1250), DegreesPerSecondPerSecond.of(800))
       // Feedforward Constants
       .withFeedforward(new ArmFeedforward(0, 3, 0))
-      .withSimFeedforward(new ArmFeedforward(0.0, 1, 0.5, 0))
+      .withSimFeedforward(new ArmFeedforward(0.0, 0.25, 5.7, 0.1))
       // Telemetry name and verbosity level
       .withTelemetry("ArmMotor", TelemetryVerbosity.HIGH)
       // Gearing from the motor rotor to final shaft.
