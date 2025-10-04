@@ -19,6 +19,7 @@ import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
@@ -104,9 +105,9 @@ public class ArmS extends SubsystemBase {
   // Create our SmartMotorController from our Spark and config with the NEO.
   private SmartMotorController mainArmSMC = new TalonFXWrapper(armMotor, DCMotor.getFalcon500(1), smcConfig);
 
-  private final MechanismPositionConfig robotToMechanism = new MechanismPositionConfig()
-      .withRelativePosition(new Translation3d(Meters.of(0.1), Meters.of(0), Meters.of(0.15)));
-
+  private final MechanismPositionConfig armToMechanism = new MechanismPositionConfig()
+      .withRelativePosition(new Translation3d(Meters.of(0.18415/2), Meters.of(0), Meters.of(1.9304/2
+      )));
   private ArmConfig armCfg = new ArmConfig(mainArmSMC)
       // Soft limit is applied to the SmartMotorControllers PID
 
@@ -121,7 +122,7 @@ public class ArmS extends SubsystemBase {
 
       // Telemetry name and verbosity for the arm.
       .withTelemetry("MainArm", TelemetryVerbosity.HIGH)
-      .withMechanismPositionConfig(robotToMechanism);
+      .withMechanismPositionConfig(armToMechanism);
 
   // Arm Mechanism
   private Arm arm = new Arm(armCfg);
