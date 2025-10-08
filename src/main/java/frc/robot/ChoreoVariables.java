@@ -49,7 +49,8 @@ public class ChoreoVariables {
   }
 
   private static void initialize() {
-    if (INITIALIZED == true) return;
+    if (INITIALIZED == true)
+      return;
     File choreoFile = new File(Filesystem.getDeployDirectory(), "choreo/project.chor");
     try {
       var reader = new BufferedReader(new FileReader(choreoFile));
@@ -101,7 +102,8 @@ public class ChoreoVariables {
   }
 
   /**
-   * Get a value in {@link #Meters} from Choreo. NOTE: this works regardless of whether the value
+   * Get a value in {@link #Meters} from Choreo. NOTE: this works regardless of
+   * whether the value
    * actually is set as a length in Choreo.
    *
    * @param key The variable name in Choreo
@@ -112,7 +114,8 @@ public class ChoreoVariables {
   }
 
   /**
-   * Get a value in {@link #MetersPerSecond} from Choreo. NOTE: this works regardless of whether the
+   * Get a value in {@link #MetersPerSecond} from Choreo. NOTE: this works
+   * regardless of whether the
    * value actually is set as a linear velocity in Choreo.
    *
    * @param key The variable name in Choreo
@@ -123,18 +126,21 @@ public class ChoreoVariables {
   }
 
   /**
-   * Get a value in {@link #MetersPerSecondPerSecond} from Choreo. NOTE: this works regardless of
+   * Get a value in {@link #MetersPerSecondPerSecond} from Choreo. NOTE: this
+   * works regardless of
    * whether the value actually is set as a linear acceleration in Choreo.
    *
    * @param key The variable name in Choreo
-   * @return A {@link LinearAcceleration} object representing the linear acceleration
+   * @return A {@link LinearAcceleration} object representing the linear
+   *         acceleration
    */
   public static LinearAcceleration getLinearAcceleration(String key) {
     return MetersPerSecondPerSecond.of(get(key));
   }
 
   /**
-   * Get a value in {@link #Radians} from Choreo. NOTE: this works regardless of whether the value
+   * Get a value in {@link #Radians} from Choreo. NOTE: this works regardless of
+   * whether the value
    * actually is set as an angle in Choreo.
    *
    * @param key The variable name in Choreo
@@ -145,7 +151,8 @@ public class ChoreoVariables {
   }
 
   /**
-   * Get a rotation from Choreo. NOTE: this works regardless of whether the value actually is set as
+   * Get a rotation from Choreo. NOTE: this works regardless of whether the value
+   * actually is set as
    * an angle in Choreo.
    *
    * @param key The variable name in Choreo
@@ -156,7 +163,8 @@ public class ChoreoVariables {
   }
 
   /**
-   * Get a value in {@link #RadiansPerSecond} from Choreo. NOTE: this works regardless of whether
+   * Get a value in {@link #RadiansPerSecond} from Choreo. NOTE: this works
+   * regardless of whether
    * the value actually is set as a rotational velocity in Choreo.
    *
    * @param key The variable name in Choreo
@@ -167,18 +175,21 @@ public class ChoreoVariables {
   }
 
   /**
-   * Get a value in {@link #RadiansPerSecondPerSecond} from Choreo. NOTE: this works regardless of
+   * Get a value in {@link #RadiansPerSecondPerSecond} from Choreo. NOTE: this
+   * works regardless of
    * whether the value actually is set as an angular acceleration in Choreo.
    *
    * @param key The variable name in Choreo
-   * @return A {@link AngularAcceleration} object representing the angular acceleration
+   * @return A {@link AngularAcceleration} object representing the angular
+   *         acceleration
    */
   public static AngularAcceleration getAngularAcceleration(String key) {
     return RadiansPerSecondPerSecond.of(get(key));
   }
 
   /**
-   * Get a value in {@link #Seconds} from Choreo. NOTE: this works regardless of whether the value
+   * Get a value in {@link #Seconds} from Choreo. NOTE: this works regardless of
+   * whether the value
    * actually is set as a time in Choreo.
    *
    * @param key The variable name in Choreo
@@ -189,7 +200,8 @@ public class ChoreoVariables {
   }
 
   /**
-   * Get a value in {@link #Kilograms} from Choreo. NOTE: this works regardless of whether the value
+   * Get a value in {@link #Kilograms} from Choreo. NOTE: this works regardless of
+   * whether the value
    * actually is set as a mass in Choreo.
    *
    * @param key The variable name in Choreo
@@ -200,7 +212,8 @@ public class ChoreoVariables {
   }
 
   /**
-   * Get a value in {@link #NewtonMeters} from Choreo. NOTE: this works regardless of whether the
+   * Get a value in {@link #NewtonMeters} from Choreo. NOTE: this works regardless
+   * of whether the
    * value actually is set as a torque in Choreo.
    *
    * @param key The variable name in Choreo
@@ -211,7 +224,8 @@ public class ChoreoVariables {
   }
 
   /**
-   * Get a value in {@link #KilogramSquareMeters} from Choreo. NOTE: this works regardless of
+   * Get a value in {@link #KilogramSquareMeters} from Choreo. NOTE: this works
+   * regardless of
    * whether the value actually is set as an MOI in Choreo.
    *
    * @param key The variable name in Choreo
@@ -222,9 +236,12 @@ public class ChoreoVariables {
   }
 
   /**
-   * Deinitialize this - it will reinitialize later if necessary. This method cleans up memory by
-   * removing the variable and pose caches used to retrieve values - when something is read the
-   * whole file is read into these hash maps and kept and reused if more variables are read. This
+   * Deinitialize this - it will reinitialize later if necessary. This method
+   * cleans up memory by
+   * removing the variable and pose caches used to retrieve values - when
+   * something is read the
+   * whole file is read into these hash maps and kept and reused if more variables
+   * are read. This
    * resets those hash maps.
    */
   public static void deinitialize() {

@@ -13,19 +13,23 @@ public class AllianceFlipUtil {
     public static boolean isRedAlliance() {
         return DriverStation.getAlliance().get() == DriverStation.Alliance.Red;
     }
+
     public static Translation2d flipTranslation(Translation2d t) {
-        if (!isRedAlliance()) return t;
+        if (!isRedAlliance())
+            return t;
         return new Translation2d(FIELD_LENGTH - t.getX(), FIELD_WIDTH - t.getY());
     }
 
     public static Rotation2d flipRotation(Rotation2d r) {
-        if (!isRedAlliance()) return r;
+        if (!isRedAlliance())
+            return r;
         return r.plus(Rotation2d.fromDegrees(180));
     }
 
     /** Flips a Pose2d to the red alliance */
     public static Pose2d flipPose(Pose2d p) {
-        if (!isRedAlliance()) return p;
+        if (!isRedAlliance())
+            return p;
         return new Pose2d(flipTranslation(p.getTranslation()), flipRotation(p.getRotation()));
     }
 }

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -38,9 +39,8 @@ import frc.robot.subsystems.HandS.HandConstants;
 import frc.robot.subsystems.YAMSIntakePivot;
 import frc.robot.subsystems.YAMSIntakeRollerS;
 
-
 public class StateMachine {
-    //TODO: add logging/simulation for states
+    // TODO: add logging/simulation for states
 
     public final YAMSIntakeRollerS intakeRoller = new YAMSIntakeRollerS();
 
@@ -51,14 +51,13 @@ public class StateMachine {
     public final ElevatorS elevator = new ElevatorS();
     public final YAMSIntakePivot yIntakePivot = new YAMSIntakePivot();
 
-    public enum RobotState{
-        //Todo: add all states as in button mapping doc
+    public enum RobotState {
+        // Todo: add all states as in button mapping doc
         CORAL_INTAKING,
         INTAKE_STOW,
         PREP_L2
 
     }
-
 
     private RobotState currentState = RobotState.INTAKE_STOW;
 
@@ -66,46 +65,31 @@ public class StateMachine {
         return new InstantCommand(() -> currentState = newState);
     }
 
-
-
-    //Todo: add command that combines intakeCoral and stowCoral, update states
+    // Todo: add command that combines intakeCoral and stowCoral, update states
     public Command intakeCoral() {
         return Commands.sequence(setState(RobotState.CORAL_INTAKING),
-        Commands.race(yIntakePivot.setAngle(YAMSIntakePivot.DOWN_ANGLE), intakeRoller.coralIntake())
-        )
-        ;
+                Commands.race(yIntakePivot.setAngle(YAMSIntakePivot.DOWN_ANGLE), intakeRoller.coralIntake()));
     }
-    
-     public Command stowCoral() {
+
+    public Command stowCoral() {
         return Commands.sequence(setState(RobotState.INTAKE_STOW),
-            yIntakePivot.setAngle(YAMSIntakePivot.SOME_ANGLE)
-        );
+                yIntakePivot.setAngle(YAMSIntakePivot.SOME_ANGLE));
     }
 
     public Command prepL2() {
         if (currentState == RobotState.PREP_L2) {
             return Commands.none();
-        }
-        else {
+        } else {
             return Commands.sequence(setState(RobotState.PREP_L2),
-                setUpperMechanism(ArmS.L2_ANGLE, elevator.L2_HEIGHT)
-                )
-            ;
+                    setUpperMechanism(ArmS.L2_ANGLE, elevator.L2_HEIGHT));
         }
     }
-
-
 
     public Command setUpperMechanism(Angle armAngle, Distance elevHeight) {
         return Commands.parallel(
-            arm.setAngle(armAngle),
-            elevator.setHeight(elevHeight)
-        );
-
+                arm.setAngle(armAngle),
+                elevator.setHeight(elevHeight));
 
     }
 
-
 }
-
-

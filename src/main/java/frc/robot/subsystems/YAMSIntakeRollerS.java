@@ -92,7 +92,6 @@ public class YAMSIntakeRollerS extends SubsystemBase {
         return roller.getSpeed();
     }
 
-
     public Command setVoltage(Voltage volts) {
         return run(() -> rollerMotor.setVoltage(volts.in(Volts)));
     }

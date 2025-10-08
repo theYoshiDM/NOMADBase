@@ -59,16 +59,15 @@ public class ArmS extends SubsystemBase {
     public static final Current STATOR_LIMIT = Amps.of(120);
   }
 
-  //TODO: set all possible angles, tune
+  // TODO: set all possible angles, tune
   public static final Angle L2_ANGLE = Degrees.of(280);
-
 
   public CANcoder m_armEncoder = new CANcoder(62);
 
   private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.CLOSED_LOOP)
       // Feedback Constants (PID Constants)
-      //TODO: COPY SIM VALUES TO REAL
+      // TODO: COPY SIM VALUES TO REAL
       .withClosedLoopController(2, 0, 0.2, DegreesPerSecond.of(458), DegreesPerSecondPerSecond.of(688))
 
       .withSimClosedLoopController(20, 0, 0, DegreesPerSecond.of(1250), DegreesPerSecondPerSecond.of(800))
@@ -80,20 +79,20 @@ public class ArmS extends SubsystemBase {
       // Gearing from the motor rotor to final shaft.
       // In this example gearbox(3,4) is the same as gearbox("3:1","4:1") which
       // corresponds to the gearbox attached to your motor.
-      .withGearing(SmartMechanism.gearing(SmartMechanism.gearbox(50/12, 50/18, 60/10)))
+      .withGearing(SmartMechanism.gearing(SmartMechanism.gearbox(50 / 12, 50 / 18, 60 / 10)))
       // Motor properties to prevent over currenting.
       .withMotorInverted(false)
       .withIdleMode(MotorMode.BRAKE)
 
-      // TODO: continuous wrapping is currently messed up somehow, but I'm not sure why
-      //.withContinuousWrapping(Degrees.of(-180), Degrees.of(180))
+      // TODO: continuous wrapping is currently messed up somehow, but I'm not sure
+      // why
+      // .withContinuousWrapping(Degrees.of(-180), Degrees.of(180))
 
       // .withExternalEncoder(encoder)
       // .withExternalGearing(SmartMechanism.gearing(SmartMechanism.gearbox(1)))
       // .withUseExternalFeedbackEncoder(true)
 
       .withStatorCurrentLimit(ArmConstants.STATOR_LIMIT);
-
 
   // Vendor motor controller object
   private TalonFX armMotor = new TalonFX(ArmConstants.CAN_ID, TunerConstants.kCANBus2);
@@ -102,8 +101,7 @@ public class ArmS extends SubsystemBase {
   private SmartMotorController mainArmSMC = new TalonFXWrapper(armMotor, DCMotor.getFalcon500(1), smcConfig);
 
   private final MechanismPositionConfig armToMechanism = new MechanismPositionConfig()
-      .withRelativePosition(new Translation3d(Meters.of(0.18415/2), Meters.of(0), Meters.of(1.9304/2
-      )));
+      .withRelativePosition(new Translation3d(Meters.of(0.18415 / 2), Meters.of(0), Meters.of(1.9304 / 2)));
   private ArmConfig armCfg = new ArmConfig(mainArmSMC)
       // Soft limit is applied to the SmartMotorControllers PID
 

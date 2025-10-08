@@ -73,32 +73,32 @@ public class RobotContainer {
     public final ElevatorS elevator = new ElevatorS();
 
     public final YAMSIntakePivot yIntakePivot = new YAMSIntakePivot();
-    
+
     private final AutoFactory autoFactory;
-    private Mechanism2d VISUALIZER; 
+    private Mechanism2d VISUALIZER;
     private final Autos autoRoutines;
     private final AutoChooser m_chooser = new AutoChooser();
     private final StateMachine stateMachine = new StateMachine();
 
-     
     public RobotContainer() {
-    
+
         drivetrain.resetOdometry(new Pose2d());
-        VISUALIZER = logger.MECH_VISUALIZER; 
+        VISUALIZER = logger.MECH_VISUALIZER;
 
         configureBindings();
         SmartDashboard.putData("Visualzer", VISUALIZER);
-        
 
         autoFactory = drivetrain.createAutoFactory();
         autoRoutines = new Autos(drivetrain, arm, yIntakePivot, intakeRoller, elevator, null, autoFactory);
         m_chooser.addRoutine("FourCoralRight", autoRoutines::FourCoralRight);
         m_chooser.addRoutine("FourCoralLeft", autoRoutines::FourCoralLeft);
         m_chooser.addRoutine("BacksideAuto", autoRoutines::BacksideAuto);
-        SmartDashboard.putData("Auto Mode", m_chooser); 
+        SmartDashboard.putData("Auto Mode", m_chooser);
 
     }
-    public double xButtonPressedTime = 0;   
+
+    public double xButtonPressedTime = 0;
+
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
@@ -118,31 +118,31 @@ public class RobotContainer {
         RobotModeTriggers.disabled().whileTrue(
                 drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
-                joystick.a().onTrue(
-                    stateMachine.intakeCoral()
-                );
+        joystick.a().onTrue(
+                stateMachine.intakeCoral());
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-            }
-        
-            public Command getAutonomousCommand() {
-                return m_chooser.selectedCommand();
-                
-            }
+    }
 
-            //TODO: add to state machine, delete
-            public Command Stow() {
-                return yIntakePivot.setAngle(YAMSIntakePivot.L1_ANGLE);
-            }
-            public Command L1Score() {
-                return intakeRoller.outTakeRollers();
-            }
-        
-            public Command Handoff() {
-                return yIntakePivot.setAngle(YAMSIntakePivot.HANDOFF_ANGLE).until(() ->Math.abs(yIntakePivot.getAngle().in(Degrees) - YAMSIntakePivot.HANDOFF_ANGLE.in(Degrees)) < 2.0);
-                
-            }
-        
-        }
+    public Command getAutonomousCommand() {
+        return m_chooser.selectedCommand();
 
+    }
+
+    // TODO: add to state machine, delete
+    public Command Stow() {
+        return yIntakePivot.setAngle(YAMSIntakePivot.L1_ANGLE);
+    }
+
+    public Command L1Score() {
+        return intakeRoller.outTakeRollers();
+    }
+
+    public Command Handoff() {
+        return yIntakePivot.setAngle(YAMSIntakePivot.HANDOFF_ANGLE).until(
+                () -> Math.abs(yIntakePivot.getAngle().in(Degrees) - YAMSIntakePivot.HANDOFF_ANGLE.in(Degrees)) < 2.0);
+
+    }
+
+}

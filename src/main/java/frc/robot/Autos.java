@@ -64,110 +64,114 @@ import frc.robot.subsystems.YAMSIntakeRollerS;
 import frc.robot.subsystems.YAMSIntakePivot;
 
 public class Autos {
-        private final AutoFactory m_factory;
-        protected final CommandSwerveDrivetrain m_drivebase;
-        protected final ArmS m_arm;
-        protected final YAMSIntakePivot m_intakepiv;
-        protected final YAMSIntakeRollerS m_intakerol;
-        protected final ElevatorS m_elev;
-        protected final HandS m_hand;
-        private final double SCORE_WAIT = 0.875;
-    
-        public Autos(CommandSwerveDrivetrain drivebase, ArmS arm, YAMSIntakePivot intakepiv, YAMSIntakeRollerS intakerol, ElevatorS elev, HandS hand, AutoFactory factory) {
-            m_drivebase = drivebase;
-            m_arm = arm;
-            m_intakepiv = intakepiv;
-            m_intakerol = intakerol;
-            m_elev = elev;
-            m_hand = hand;
-            m_factory = factory;
-        }
+    private final AutoFactory m_factory;
+    protected final CommandSwerveDrivetrain m_drivebase;
+    protected final ArmS m_arm;
+    protected final YAMSIntakePivot m_intakepiv;
+    protected final YAMSIntakeRollerS m_intakerol;
+    protected final ElevatorS m_elev;
+    protected final HandS m_hand;
+    private final double SCORE_WAIT = 0.875;
 
-        public void resetOdometry() {
-
-        }
-        public AutoRoutine FourCoralRight() {
-            final AutoRoutine routine = m_factory.newRoutine("FourCoralRight");
-            final AutoTrajectory traj = routine.trajectory("1");
-        //toScoreJ.atTime(0).onTrue(m_elev.goToPosition(ElevatorS.Positions.HIGH_POSITION)).onTrue(m_arm.goToPosition(ArmS.Positions.CORAL_L4)).onTrue(m_hand.)
-            final AutoTrajectory toScoreK = routine.trajectory("2");
-            final AutoTrajectory toScoreL = routine.trajectory("3");
-            final AutoTrajectory toScoreA = routine.trajectory("4");
-           // traj.chain(toScoreK);
-            //toScoreK.done().onTrue(waitSeconds(1.0).andThen(toScoreL.spawnCmd()));
-            //toScoreK.chain(toScoreL);
-            //toScoreL.done().onTrue(waitSeconds(1.0).andThen(toScoreA.spawnCmd()));
-            //toScoreL.chain(toScoreA);
-            routine.active().onTrue(
-                traj.resetOdometry() 
-                    .andThen(traj.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(toScoreK.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(toScoreL.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(toScoreA.cmd())
-            );
-        return routine;
-        }
-        public AutoRoutine FourCoralLeft() {
-            final AutoRoutine routine = m_factory.newRoutine("FourCoralLeft");
-            final AutoTrajectory traj = routine.trajectory("5");
-        //toScoreJ.atTime(0).onTrue(m_elev.goToPosition(ElevatorS.Positions.HIGH_POSITION)).onTrue(m_arm.goToPosition(ArmS.Positions.CORAL_L4)).onTrue(m_hand.)
-            final AutoTrajectory toScoreK = routine.trajectory("6");
-            final AutoTrajectory toScoreL = routine.trajectory("7");
-            final AutoTrajectory toScoreA = routine.trajectory("8");
-           // traj.chain(toScoreK);
-            //toScoreK.done().onTrue(waitSeconds(1.0).andThen(toScoreL.spawnCmd())); Please work.
-            //toScoreK.chain(toScoreL);
-            //toScoreL.done().onTrue(waitSeconds(1.0).andThen(toScoreA.spawnCmd()));
-            //toScoreL.chain(toScoreA);
-            routine.active().onTrue(
-                traj.resetOdometry() 
-                    .andThen(traj.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(toScoreK.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(toScoreL.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(toScoreA.cmd())
-            );
-        return routine;
-        }
-        public AutoRoutine BacksideAuto() {
-            final AutoRoutine routine = m_factory.newRoutine("BacksideAuto");
-            final AutoTrajectory toScoreG = routine.trajectory("B1");
-        //toScoreJ.atTime(0).onTrue(m_elev.goToPosition(ElevatorS.Positions.HIGH_POSITION)).onTrue(m_arm.goToPosition(ArmS.Positions.CORAL_L4)).onTrue(m_hand.)
-            final AutoTrajectory pickupR4 = routine.trajectory("B2");
-            final AutoTrajectory scoreR4 = routine.trajectory("B3");
-            final AutoTrajectory pickupR3 = routine.trajectory("B4");
-            final AutoTrajectory scoreR3 = routine.trajectory("B5");
-            final AutoTrajectory pickupR5 = routine.trajectory("B6");
-            final AutoTrajectory scoreR5 = routine.trajectory("B7");
-            //final AutoTrajectory toScoreA = routine.trajectory("8");
-           // traj.chain(toScoreK);
-            //toScoreK.done().onTrue(waitSeconds(1.0).andThen(toScoreL.spawnCmd())); Please work.
-            //toScoreK.chain(toScoreL);
-            //toScoreL.done().onTrue(waitSeconds(1.0).andThen(toScoreA.spawnCmd()));
-            //toScoreL.chain(toScoreA);
-            routine.active().onTrue(
-                toScoreG.resetOdometry() 
-                    .andThen(toScoreG.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(pickupR4.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(scoreR4.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(pickupR3.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(scoreR3.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(pickupR5.cmd())
-                    .andThen(Commands.waitSeconds(SCORE_WAIT))
-                    .andThen(scoreR5.cmd())
-                    //.andThen(Commands.waitSeconds(SCORE_WAIT))
-                    //.andThen(toScoreA.cmd())
-            );
-        return routine;
-        }
+    public Autos(CommandSwerveDrivetrain drivebase, ArmS arm, YAMSIntakePivot intakepiv, YAMSIntakeRollerS intakerol,
+            ElevatorS elev, HandS hand, AutoFactory factory) {
+        m_drivebase = drivebase;
+        m_arm = arm;
+        m_intakepiv = intakepiv;
+        m_intakerol = intakerol;
+        m_elev = elev;
+        m_hand = hand;
+        m_factory = factory;
     }
+
+    public void resetOdometry() {
+
+    }
+
+    public AutoRoutine FourCoralRight() {
+        final AutoRoutine routine = m_factory.newRoutine("FourCoralRight");
+        final AutoTrajectory traj = routine.trajectory("1");
+        // toScoreJ.atTime(0).onTrue(m_elev.goToPosition(ElevatorS.Positions.HIGH_POSITION)).onTrue(m_arm.goToPosition(ArmS.Positions.CORAL_L4)).onTrue(m_hand.)
+        final AutoTrajectory toScoreK = routine.trajectory("2");
+        final AutoTrajectory toScoreL = routine.trajectory("3");
+        final AutoTrajectory toScoreA = routine.trajectory("4");
+        // traj.chain(toScoreK);
+        // toScoreK.done().onTrue(waitSeconds(1.0).andThen(toScoreL.spawnCmd()));
+        // toScoreK.chain(toScoreL);
+        // toScoreL.done().onTrue(waitSeconds(1.0).andThen(toScoreA.spawnCmd()));
+        // toScoreL.chain(toScoreA);
+        routine.active().onTrue(
+                traj.resetOdometry()
+                        .andThen(traj.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(toScoreK.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(toScoreL.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(toScoreA.cmd()));
+        return routine;
+    }
+
+    public AutoRoutine FourCoralLeft() {
+        final AutoRoutine routine = m_factory.newRoutine("FourCoralLeft");
+        final AutoTrajectory traj = routine.trajectory("5");
+        // toScoreJ.atTime(0).onTrue(m_elev.goToPosition(ElevatorS.Positions.HIGH_POSITION)).onTrue(m_arm.goToPosition(ArmS.Positions.CORAL_L4)).onTrue(m_hand.)
+        final AutoTrajectory toScoreK = routine.trajectory("6");
+        final AutoTrajectory toScoreL = routine.trajectory("7");
+        final AutoTrajectory toScoreA = routine.trajectory("8");
+        // traj.chain(toScoreK);
+        // toScoreK.done().onTrue(waitSeconds(1.0).andThen(toScoreL.spawnCmd())); Please
+        // work.
+        // toScoreK.chain(toScoreL);
+        // toScoreL.done().onTrue(waitSeconds(1.0).andThen(toScoreA.spawnCmd()));
+        // toScoreL.chain(toScoreA);
+        routine.active().onTrue(
+                traj.resetOdometry()
+                        .andThen(traj.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(toScoreK.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(toScoreL.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(toScoreA.cmd()));
+        return routine;
+    }
+
+    public AutoRoutine BacksideAuto() {
+        final AutoRoutine routine = m_factory.newRoutine("BacksideAuto");
+        final AutoTrajectory toScoreG = routine.trajectory("B1");
+        // toScoreJ.atTime(0).onTrue(m_elev.goToPosition(ElevatorS.Positions.HIGH_POSITION)).onTrue(m_arm.goToPosition(ArmS.Positions.CORAL_L4)).onTrue(m_hand.)
+        final AutoTrajectory pickupR4 = routine.trajectory("B2");
+        final AutoTrajectory scoreR4 = routine.trajectory("B3");
+        final AutoTrajectory pickupR3 = routine.trajectory("B4");
+        final AutoTrajectory scoreR3 = routine.trajectory("B5");
+        final AutoTrajectory pickupR5 = routine.trajectory("B6");
+        final AutoTrajectory scoreR5 = routine.trajectory("B7");
+        // final AutoTrajectory toScoreA = routine.trajectory("8");
+        // traj.chain(toScoreK);
+        // toScoreK.done().onTrue(waitSeconds(1.0).andThen(toScoreL.spawnCmd())); Please
+        // work.
+        // toScoreK.chain(toScoreL);
+        // toScoreL.done().onTrue(waitSeconds(1.0).andThen(toScoreA.spawnCmd()));
+        // toScoreL.chain(toScoreA);
+        routine.active().onTrue(
+                toScoreG.resetOdometry()
+                        .andThen(toScoreG.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(pickupR4.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(scoreR4.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(pickupR3.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(scoreR3.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(pickupR5.cmd())
+                        .andThen(Commands.waitSeconds(SCORE_WAIT))
+                        .andThen(scoreR5.cmd())
+        // .andThen(Commands.waitSeconds(SCORE_WAIT))
+        // .andThen(toScoreA.cmd())
+        );
+        return routine;
+    }
+}
