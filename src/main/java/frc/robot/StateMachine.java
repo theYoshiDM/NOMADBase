@@ -55,16 +55,18 @@ public class StateMachine {
         // Todo: add all states as in button mapping doc
         CORAL_INTAKING,
         INTAKE_STOW,
+        PRE_HANDOFF,
         PREP_L2
 
     }
 
-    private RobotState currentState = RobotState.INTAKE_STOW;
+    private RobotState currentState = RobotState.PRE_HANDOFF;
 
     public Command setState(RobotState newState) {
         return new InstantCommand(() -> currentState = newState);
     }
 
+    // Functions below:
     // Todo: add command that combines intakeCoral and stowCoral, update states
     public Command intakeCoral() {
         return Commands.sequence(setState(RobotState.CORAL_INTAKING),
@@ -76,7 +78,15 @@ public class StateMachine {
                 yIntakePivot.setAngle(YAMSIntakePivot.SOME_ANGLE));
     }
 
-    //TODO: add handoff sequence
+    public Command setUpperMechanism(Angle armAngle, Distance elevHeight) {
+        return Commands.parallel(
+                arm.setAngle(armAngle),
+                elevator.setHeight(elevHeight));
+
+    }
+
+    // Commands below:
+    // TODO: add handoff sequence
     public Command prepL2() {
         if (currentState == RobotState.PREP_L2) {
             return Commands.none();
@@ -84,13 +94,6 @@ public class StateMachine {
             return Commands.sequence(setState(RobotState.PREP_L2),
                     setUpperMechanism(ArmS.L2_ANGLE, elevator.L2_HEIGHT));
         }
-    }
-
-    public Command setUpperMechanism(Angle armAngle, Distance elevHeight) {
-        return Commands.parallel(
-                arm.setAngle(armAngle),
-                elevator.setHeight(elevHeight));
-
     }
 
 }
