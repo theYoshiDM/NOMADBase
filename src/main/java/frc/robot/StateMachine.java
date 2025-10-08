@@ -76,6 +76,7 @@ public class StateMachine {
                 yIntakePivot.setAngle(YAMSIntakePivot.SOME_ANGLE));
     }
 
+    //TODO: add handoff sequence
     public Command prepL2() {
         if (currentState == RobotState.PREP_L2) {
             return Commands.none();
