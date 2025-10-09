@@ -8,21 +8,21 @@ import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import frc.robot.LimelightHelpers;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
 
 public class Vision {
 
     private SwerveDrivePoseEstimator m_poseEstimator;
-    private Pigeon2 m_gyro = new Pigeon2(75, TunerConstants.kCANBus2); // Assuming m_gyro is a member of this class
-
-    // Constructor to initialize members
-    public Vision(SwerveDrivePoseEstimator poseEstimator, Pigeon2 gyro) {
-        this.m_poseEstimator = poseEstimator;
-        this.m_gyro = gyro;
+        private Pigeon2 m_gyro;
+    
+        // Constructor to initialize members
+        public Vision(SwerveDrivePoseEstimator poseEstimator, Pigeon2 gyro) {
+            this.m_poseEstimator = poseEstimator;
+            this.m_gyro = gyro;
     }
 
     public void update() {
-        // The following logic seems to be for a periodic update
         LimelightHelpers.SetRobotOrientation("limelight",
                 m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
         LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
