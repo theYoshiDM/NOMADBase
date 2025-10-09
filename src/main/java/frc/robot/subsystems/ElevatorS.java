@@ -49,7 +49,9 @@ public class ElevatorS extends SubsystemBase {
     public final Distance ELEVATOR_HANDOFF_HEIGHT = Inches.of(50);
 
     // Todo: set all possible heights, tune
-    public final Distance L2_HEIGHT = Inches.of(20);
+    public final Distance L2_HEIGHT = Inches.of(30);
+    public final Distance L3_HEIGHT = Inches.of(50);
+    public final Distance L4_HEIGHT = Inches.of(70);
 
     private SmartMotorControllerConfig smcElevConfig = new SmartMotorControllerConfig(this)
             .withFollowers(Pair.of(new TalonFX(52, TunerConstants.kCANBus), false))
