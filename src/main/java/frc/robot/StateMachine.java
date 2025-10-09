@@ -93,6 +93,39 @@ public class StateMachine {
 
     // Commands below:
     // TODO: add handoff sequence
+
+    public Command prepL4() {
+        if (currentState == RobotState.HANDOFF) {
+            return Commands.sequence(setState(RobotState.L4_PRE_SCORE),
+                    setUpperMechanism(ArmS.HANDOFF_ANGLE, elevator.ELEVATOR_HANDOFF_HEIGHT),
+
+                    Commands.parallel(handRoller.HandCoralIntake(),
+                            intakeRoller.handoffOutTake()),
+                            Commands.sequence(
+                                    setUpperMechanism(ArmS.L4_ANGLE, elevator.L4_HEIGHT)));
+
+        } else {
+            return Commands.none();
+
+        }
+    }
+
+    public Command prepL3() {
+        if (currentState == RobotState.HANDOFF) {
+            return Commands.sequence(setState(RobotState.L3_PRE_SCORE),
+                    setUpperMechanism(ArmS.HANDOFF_ANGLE, elevator.ELEVATOR_HANDOFF_HEIGHT),
+
+                    Commands.parallel(handRoller.HandCoralIntake(),
+                            intakeRoller.handoffOutTake()),
+                            Commands.sequence(
+                                    setUpperMechanism(ArmS.L3_ANGLE, elevator.L3_HEIGHT)));
+
+        } else {
+            return Commands.none();
+
+        }
+    }
+
     public Command prepL2() {
         if (currentState == RobotState.HANDOFF) {
             return Commands.sequence(setState(RobotState.L2_PRE_SCORE),
