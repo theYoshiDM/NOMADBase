@@ -15,7 +15,7 @@ public class Vision {
 
     private SwerveDrivePoseEstimator m_poseEstimator;
         private Pigeon2 m_gyro;
-    
+
         // Constructor to initialize members
         public Vision(SwerveDrivePoseEstimator poseEstimator, Pigeon2 gyro) {
             this.m_poseEstimator = poseEstimator;
@@ -27,6 +27,7 @@ public class Vision {
                 m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
         LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
 
+        LimelightHelpers.SetIMUMode("limelight", 0);
         boolean doRejectUpdate = false;
         // if our angular velocity is greater than 360 degrees per second, ignore vision
         // updates
@@ -41,6 +42,7 @@ public class Vision {
             m_poseEstimator.addVisionMeasurement(
                     mt2.pose,
                     mt2.timestampSeconds);
+                    
         }
     }
 }
