@@ -54,13 +54,18 @@ public class StateMachine {
     public enum RobotState {
         // Todo: add all states as in button mapping doc
         CORAL_INTAKING,
-        INTAKE_STOW,
-        PRE_HANDOFF,
-        PREP_L2
+        HANDOFF,
+        L1_PRE_SCORE,
+        L2_PRE_SCORE,
+        L3_PRE_SCORE,
+        L4_PRE_SCORE,
+        INTAKING_ALGAE_GROUND,
+        INTAKING_ALGAE_REEF,
+        HAS_ALGAE
 
     }
 
-    private RobotState currentState = RobotState.PRE_HANDOFF;
+    private RobotState currentState = RobotState.HANDOFF;
 
     public Command setState(RobotState newState) {
         return new InstantCommand(() -> currentState = newState);
@@ -74,8 +79,8 @@ public class StateMachine {
     }
 
     public Command stowCoral() {
-        return Commands.sequence(setState(RobotState.INTAKE_STOW),
-                yIntakePivot.setAngle(YAMSIntakePivot.SOME_ANGLE));
+        return Commands.sequence(setState(RobotState.HANDOFF),
+                yIntakePivot.setAngle(YAMSIntakePivot.HANDOFF_ANGLE));
     }
 
     public Command setUpperMechanism(Angle armAngle, Distance elevHeight) {
@@ -88,11 +93,31 @@ public class StateMachine {
     // Commands below:
     // TODO: add handoff sequence
     public Command prepL2() {
-        if (currentState == RobotState.PREP_L2) {
-            return Commands.none();
+        if (currentState == RobotState.HANDOFF) {
+            return Commands.sequence(setState(RobotState.L2_PRE_SCORE),
+                    setUpperMechanism(ArmS.HANDOFF_ANGLE, elevator.ELEVATOR_HANDOFF_HEIGHT),
+
+                    Commands.parallel(handRoller.HandCoralIntake(),
+                            intakeRoller.handoffOutTake()),
+                            Commands.sequence(
+                                    setUpperMechanism(ArmS.L2_ANGLE, elevator.L2_HEIGHT)));
+
         } else {
-            return Commands.sequence(setState(RobotState.PREP_L2),
-                    setUpperMechanism(ArmS.L2_ANGLE, elevator.L2_HEIGHT));
+            return Commands.none();
+
+        }
+    }
+
+    public Command prepL1() {
+        if (currentState == RobotState.HANDOFF) {
+            return Commands.sequence(setState(RobotState.L1_PRE_SCORE),
+            yIntakePivot.setAngle(yIntakePivot.L1_ANGLE)
+            
+            );
+
+        } else {
+            return Commands.none();
+
         }
     }
 

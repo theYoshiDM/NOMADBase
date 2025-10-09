@@ -61,6 +61,7 @@ public class ArmS extends SubsystemBase {
 
   // TODO: set all possible angles, tune
   public static final Angle L2_ANGLE = Degrees.of(280);
+  public static final Angle HANDOFF_ANGLE = Degrees.of(-90);
 
   public CANcoder m_armEncoder = new CANcoder(62);
 
