@@ -33,6 +33,7 @@ import frc.robot.subsystems.ArmS;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorS;
 import frc.robot.subsystems.HandS;
+import frc.robot.subsystems.HandS.HandConstants;
 import edu.wpi.first.units.measure.Distance;
 
 import frc.robot.subsystems.HandS.HandConstants;
@@ -45,6 +46,8 @@ public class StateMachine {
     public final YAMSIntakeRollerS intakeRoller = new YAMSIntakeRollerS();
 
     public final HandS handRoller = new HandS();
+
+    // public final HandConstants handConstants = new HandConstants();
 
     public final ArmS arm = new ArmS();
 
@@ -62,7 +65,8 @@ public class StateMachine {
         INTAKING_ALGAE_GROUND,
         INTAKING_ALGAE_REEF,
         ALGAE_STOW,
-        BARGE_PREP
+        BARGE_PREP,
+        NO_GAME_PIECE
 
     }
 
@@ -101,8 +105,8 @@ public class StateMachine {
 
                     Commands.parallel(handRoller.HandCoralIntake(),
                             intakeRoller.handoffOutTake()),
-                            Commands.sequence(
-                                    setUpperMechanism(ArmS.L4_ANGLE, elevator.L4_HEIGHT)));
+                    Commands.sequence(
+                            setUpperMechanism(ArmS.L4_ANGLE, elevator.L4_HEIGHT)));
 
         } else {
             return Commands.none();
@@ -117,8 +121,8 @@ public class StateMachine {
 
                     Commands.parallel(handRoller.HandCoralIntake(),
                             intakeRoller.handoffOutTake()),
-                            Commands.sequence(
-                                    setUpperMechanism(ArmS.L3_ANGLE, elevator.L3_HEIGHT)));
+                    Commands.sequence(
+                            setUpperMechanism(ArmS.L3_ANGLE, elevator.L3_HEIGHT)));
 
         } else {
             return Commands.none();
@@ -133,8 +137,8 @@ public class StateMachine {
 
                     Commands.parallel(handRoller.HandCoralIntake(),
                             intakeRoller.handoffOutTake()),
-                            Commands.sequence(
-                                    setUpperMechanism(ArmS.L2_ANGLE, elevator.L2_HEIGHT)));
+                    Commands.sequence(
+                            setUpperMechanism(ArmS.L2_ANGLE, elevator.L2_HEIGHT)));
 
         } else {
             return Commands.none();
@@ -145,14 +149,78 @@ public class StateMachine {
     public Command prepL1() {
         if (currentState == RobotState.HANDOFF) {
             return Commands.sequence(setState(RobotState.L1_PRE_SCORE),
-            yIntakePivot.setAngle(yIntakePivot.L1_ANGLE)
-            
+                    yIntakePivot.setAngle(yIntakePivot.L1_ANGLE)
+
             );
 
         } else {
             return Commands.none();
 
         }
+    }
+
+    public Command prepGroundAlgae() {
+        if (currentState == RobotState.NO_GAME_PIECE) {
+            return Commands.sequence(setState(RobotState.INTAKING_ALGAE_REEF),
+
+                    Commands.parallel(yIntakePivot.setAngle(yIntakePivot.L1_ANGLE),
+                            setUpperMechanism(ArmS.GROUND_INTAKE_ANGLE, elevator.kElevatorMinHeight),
+                            handRoller.setHandRollerVoltage(HandConstants.INTAKING_ALGAE_GROUND_VOlTAGE)
+
+                    ));
+
+        } else {
+            return Commands.none();
+        }
+
+    }
+
+    public Command prepReefAlgae() {
+        if (currentState == RobotState.NO_GAME_PIECE) {
+            return Commands.sequence(setState(RobotState.INTAKING_ALGAE_REEF),
+
+                    Commands.parallel(yIntakePivot.setAngle(yIntakePivot.L1_ANGLE),
+                            setUpperMechanism(ArmS.REEF_INTAKE_ALGAE_HIGH, elevator.kElevatorMinHeight),
+                            handRoller.setHandRollerVoltage(HandConstants.INTAKING_ALGAE_GROUND_VOlTAGE)
+
+                    ));
+
+        } else {
+            return Commands.none();
+        }
+
+    }
+
+    public Command prepBarge() {
+        if (currentState == RobotState.INTAKING_ALGAE_GROUND || currentState == RobotState.INTAKING_ALGAE_REEF) {
+            return Commands.sequence(setState(RobotState.BARGE_PREP),
+                    Commands.parallel(yIntakePivot.setAngle(yIntakePivot.L1_ANGLE),
+                            setUpperMechanism(ArmS.REEF_INTAKE_ALGAE_HIGH, elevator.kElevatorMaxHeight),
+                            handRoller.setHandRollerVoltage(HandConstants.INTAKING_ALGAE_GROUND_VOlTAGE)
+
+                    ));
+
+        } else {
+            return Commands.none();
+        }
+
+    }
+
+    public Command Score() {
+        if (currentState == RobotState.L1_PRE_SCORE) {
+            return Commands.sequence(intakeRoller.L1OutTake(), yIntakePivot.setAngle(yIntakePivot.HANDOFF_ANGLE),
+                    setState(RobotState.NO_GAME_PIECE));
+
+        }
+
+     else if (currentState == RobotState.L2_PRE_SCORE) {
+            return Commands.sequence(handRoller.handOutTakeRollers(),
+                    setUpperMechanism(Degrees.of(-30), Inches.of(36)));
+
+        }
+        else 
+            return Commands.none();
+
     }
 
 }

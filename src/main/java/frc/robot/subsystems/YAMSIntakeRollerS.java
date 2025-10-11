@@ -122,6 +122,11 @@ public class YAMSIntakeRollerS extends SubsystemBase {
         return setVoltage(YAMSIntakeRollerConstants.OUTTAKE_VOLTAGE);
     }
 
+    public Command L1OutTake() { 
+        return setVoltage(YAMSIntakeRollerConstants.OUTTAKE_VOLTAGE) 
+        .withTimeout(0.2); 
+    }
+
     public Command handoffOutTake() {
         return setVoltage(YAMSIntakeRollerConstants.OUTTAKE_VOLTAGE)
         .withTimeout(0.2);

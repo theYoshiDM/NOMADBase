@@ -56,7 +56,7 @@ public class ArmS extends SubsystemBase {
     public static final double ARM_MOI = 0.189154956; // in kilogram square meters
     public static final double TOTAL_ARM_MOI = ARM_MOI + HAND_MOI;
 
-    public static final Current STATOR_LIMIT = Amps.of(120);
+    public static final Current STATOR_LIMIT = Amps.of(60);
   }
 
   // TODO: set all possible angles, tune
@@ -64,7 +64,9 @@ public class ArmS extends SubsystemBase {
   public static final Angle L3_ANGLE = Degrees.of(190);
   public static final Angle L4_ANGLE = Degrees.of(180);
   public static final Angle HANDOFF_ANGLE = Degrees.of(-90);
-
+  public static final Angle GROUND_INTAKE_ANGLE = Degrees.of (-20);
+  public static final Angle REEF_INTAKE_ALGAE_HIGH = Degrees. of (70); 
+  
   public CANcoder m_armEncoder = new CANcoder(62);
 
   private SmartMotorControllerConfig smcConfig = new SmartMotorControllerConfig(this)

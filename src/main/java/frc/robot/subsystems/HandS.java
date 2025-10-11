@@ -17,6 +17,7 @@ public class HandS extends SubsystemBase {
         public static final int HAND_ROLLER_MOTOR_CAN_ID = 61;
         public static final double HAND_ROLLER_IN_VOLTAGE = -6; // Voltage to move the intake rollers in
         public static final double HAND_ROLLER_OUT_VOLTAGE = 2.7;
+        public static final double INTAKING_ALGAE_GROUND_VOlTAGE= 3; 
 
     }
 
@@ -59,10 +60,6 @@ public class HandS extends SubsystemBase {
 
     public Command handStopRollers() {
         return run(() -> HandRollersMotor.setVoltage(0)); // Set voltage to 0 to stop the rollers
-    }
-
-    public Command handjectL1Coral() {
-        return setHandRollerVoltage(HandConstants.HAND_ROLLER_OUT_VOLTAGE);
     }
 
     @Override
